@@ -12,9 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class ParticleSimulatorGDX extends ApplicationAdapter {
 	private SpriteBatch batch;
-	//private Texture staticTexture; 
+	private Texture staticTexture; 
 	//private Texture grid; //new
-	//private Pixmap staticPixmap; //static gen
+	private Pixmap staticPixmap; //static gen
 	private Pixmap simPixmap;
 	private Texture simTexture;
 	private Material[][] oldGrid = new Material[720][480], newGrid = oldGrid;
@@ -36,23 +36,27 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 	public void drawGrid() { //draws each pixel using the data from the 2D cell array
 		Pixmap gridPixmap = new Pixmap(720,480,Format.RGBA8888); //initializes a new pixmap
-		gridPixmap.setColor(Color.WHITE); //sets color to white
-		gridPixmap.fill(); //fills in the entire pixmap with white
+		//gridPixmap.setColor(Color.WHITE); //sets color to white
+		//gridPixmap.fill(); //fills in the entire pixmap with white
 		int width = oldGrid.length; //temporary variable so it doesn't have to check the width each time, hopefully making it faster
 		int height = oldGrid[0].length; //temporary variable so it doesn't have to check the height each time, hopefully making it faster
 
 		for (int i = 0; i < width; i++) { //Iterates through horizontal axis
 			for (int j = 0; j < height; j++) { //Iterates through vertical axis
-				if (newGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
+				if (oldGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
 					//gridPixmap.setColor(newGrid[i][j].getColor());
-					gridPixmap.setColor(Color.BLACK); //sets color to black, should be ewGrid[i][j].getColor() later on
-					gridPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
+					//gridPixmap.setColor(Color.BLACK); //sets color to black, should be newGrid[i][j].getColor() later on
+					//gridPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
+				}
+				else {
+					//gridPixmap.setColor(Color.FIREBRICK);
+					//gridPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 			}
 		}
 		simTexture = new Texture(simPixmap);
+		//batch.draw(simTexture, 0, 0);
 		simPixmap.dispose();
-		batch.draw(simTexture, 0, 0);
 	}
 
 	@Override
@@ -61,9 +65,9 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		//logo = new Texture("badlogic.png");
 		//drawGrid();
 		
-		//staticPixmap = staticGen(); //static gen
-		//staticTexture = new Texture(staticPixmap); //static gen
-		//staticPixmap.dispose(); //static gen
+		//staticGen(); //static gen
+		
+		
 	}
 
 	@Override
@@ -75,8 +79,9 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		 
 
 		batch.begin();
+		//drawGrid();
 		//batch.draw(simTexture, 0, 0);
-		drawGrid();
+		staticGen(); //static gen
 		//batch.draw(staticTexture, 0, 0); //static gen
 		batch.end();
 	}
@@ -85,11 +90,11 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
 		simTexture.dispose();
-		//staticTexture.dispose();
+		staticTexture.dispose();
 		//grid.dispose(); //new
 	}
 
-	public Pixmap staticGen() {
+	public void staticGen() {
 		Pixmap _pixmap = new Pixmap(720,480,Format.RGBA8888); //new
 		int cells[][] = new int[720][480];
 		for (int i = 0; i < cells.length; i++) {
@@ -111,6 +116,8 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 				}
 			}
 		}
-		return _pixmap;
+		staticTexture = new Texture(_pixmap);
+		_pixmap.dispose(); //static gen
+		batch.draw(staticTexture, 0, 0);
 	}
 }
