@@ -2,39 +2,43 @@ package particlesimulatorgdx;
 
 import com.badlogic.gdx.graphics.Color;
 
-public class Material {
-    private static String matType;
-    private static double matDensity;
-    private static Color matColor;
+public class Sand extends Solid {
+    private static String matType = "Solid";
+    private static double matDensity = 1;
+    private static Color matColor = new Color(220, 180, 25, 1);
 
-    public static void main() {
-
-    }
-
+    @Override
     public String getType() {
         return matType;
     }
 
+    @Override
     public double getDensity() {
         return matDensity;
     }
 
+    @Override
     public Color getColor() {
         return matColor;
     }
 
+    @Override
     public boolean goUp(Material adjCell) {
         return false;
     }
 
+    @Override
     public boolean goDown(Material adjCell) {
-        return false;
+        if (adjCell == null) return true;
+        else return false;
     }
 
+    @Override
     public boolean goRight(Material adjCell) {
         return false;
     }
 
+    @Override
     public boolean goLeft(Material adjCell) {
         return false;
     }
