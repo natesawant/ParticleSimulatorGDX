@@ -29,19 +29,39 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	public void updateGrid() { //updates the behavior and position of each cell 
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
-			for (int j = 0;	j < HEIGHT; j++) {
+			for (int j = HEIGHT - 1; j >= 0; j--) {
 				//System.out.println("Index (" + i + ", " + j + ") is null: " + (oldGrid[0] == null)); //Iterates through vertical axis
 				if (oldGrid[i][j] != null && j + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
 					Material bottomCell = oldGrid[i][j + 1]; //makes a temporary cell that is below the one we are checking the behavior of.
 					if (oldGrid[i][j].goDown(bottomCell)) { //returns true if it can move downwards
-						newGrid[i][j + 1] = oldGrid[i][j]; //moves the element down one space in the new grid
-						newGrid[i][j] = null; //replaces the old space with null
-					};
+						oldGrid[i][j + 1] = oldGrid[i][j]; //moves the element down one space in the new grid
+						oldGrid[i][j] = null; //replaces the old space with null
+					}
+				double rand = Math.random();
+				if (rand >= 0.5) {
+					if (oldGrid[i][j] != null && i + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
+					Material rightCell = oldGrid[i + 1][j]; //makes a temporary cell that is below the one we are checking the behavior of.
+					if (oldGrid[i][j].goRight(rightCell)) { //returns true if it can move downwards
+						oldGrid[i + 1][j] = oldGrid[i][j]; //moves the element down one space in the new grid
+						oldGrid[i][j] = null; //replaces the old space with null
+					}
+				}
+				else {
+					if (oldGrid[i][j] != null && i - 1 > 0) { //checks if it is a valid material and that it won't be out of bounds
+					Material leftCell = oldGrid[i - 1][j]; //makes a temporary cell that is below the one we are checking the behavior of.
+					if (oldGrid[i][j].goRight(leftCell)) { //returns true if it can move downwards
+						oldGrid[i - 1][j] = oldGrid[i][j]; //moves the element down one space in the new grid
+						oldGrid[i][j] = null; //replaces the old space with null
+					}
 				}
 			}
+		//oldGrid = newGrid;
 		}
-		oldGrid = newGrid;
 	}
+			
+		}
+	}
+}
 
 	public void drawGrid() { //draws each pixel using the data from the 2D cell array
 		Pixmap simPixmap = new Pixmap(720,480,Format.RGBA8888); //initializes a new pixmap
@@ -125,8 +145,9 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 
-		//genRandSand();
+		genRandSand();
 		genCircleSand(360, 240, 150);
+		genCircleSand(600, 240, 50);
 		
 		//staticGen(); //static gen
 		
@@ -144,7 +165,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 		drawGrid();
 		//staticGen(); //static gen
-		
+
 		batch.end();
 	}
 

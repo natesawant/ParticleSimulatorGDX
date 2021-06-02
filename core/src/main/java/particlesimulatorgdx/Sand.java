@@ -35,6 +35,7 @@ public class Sand extends Solid {
 
     @Override
     public boolean goRight(Material adjCell) {
+        if (adjCell == null) return true;
         return false;
     }
 
