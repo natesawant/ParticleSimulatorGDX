@@ -40,6 +40,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 				}
 			}
 		}
+		oldGrid = newGrid;
 	}
 
 	public void drawGrid() { //draws each pixel using the data from the 2D cell array
@@ -125,7 +126,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		//genRandSand();
-		genCircleSand(360, 240, 100);
+		genCircleSand(360, 240, 150);
 		
 		//staticGen(); //static gen
 		
@@ -140,8 +141,10 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		updateGrid();
 
 		batch.begin();
+
 		drawGrid();
 		//staticGen(); //static gen
+		
 		batch.end();
 	}
 
