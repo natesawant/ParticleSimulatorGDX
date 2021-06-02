@@ -65,13 +65,30 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		batch.draw(simTexture, 0, 0);
 	}
 
-	public void genSand() {
+	public void genRandSand() {
 		Material sandMat = new Sand();
 		
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
 				double rand = Math.random();
 				if (rand > 0.5) oldGrid[i][j] = sandMat;
+			}
+		}
+	}
+
+	public void genCircleSand(int x, int y, int r) {
+		Material sandMat = new Sand();
+
+		double distance;
+
+		for (int i = x - r; i < x + r; i++) {
+			for (int j = y - r; j < y + r; j++) {
+				if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+					distance = Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
+					if (distance <= r) {
+						oldGrid[i][j] = sandMat;
+					}
+				}
 			}
 		}
 	}
@@ -107,9 +124,8 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 
-		genSand();
-		//logo = new Texture("badlogic.png");
-		//drawGrid();
+		//genRandSand();
+		genCircleSand(360, 240, 100);
 		
 		//staticGen(); //static gen
 		
