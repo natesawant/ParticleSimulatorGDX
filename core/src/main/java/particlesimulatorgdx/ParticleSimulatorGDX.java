@@ -32,7 +32,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = HEIGHT - 1; j >= 0; j--) {
 				rand = Math.random();
-				
+
 				//System.out.println("Index (" + i + ", " + j + ") is null: " + (oldGrid[0] == null)); //Iterates through vertical axis
 				if (oldGrid[i][j] != null && j + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
 					Material bottomCell = oldGrid[i][j + 1]; //makes a temporary cell that is below the one we are checking the behavior of.
@@ -40,7 +40,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 						oldGrid[i][j + 1] = oldGrid[i][j]; //moves the element down one space in the new grid
 						oldGrid[i][j] = null; //replaces the old space with null
 					}
-				if (rand >= 0.5) {
+				if (rand > 0.5) {
 					if (oldGrid[i][j] != null && i + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
 					Material rightCell = oldGrid[i + 1][j]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
 					if (oldGrid[i][j].goRight(rightCell)) { //returns true if it can move rightwards
@@ -115,6 +115,16 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		}
 	}
 
+	public void genRectangle(int x, int y, int width, int height, Material mat) {
+		for (int i = x - width/2; i < x + width/2; i++) {
+			for (int j = y - height/2; j < y + height/2; j++) {
+				if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+					oldGrid[i][j] = mat;
+				}
+			}
+		}
+	}
+
 	public void staticGen() {
 		Pixmap _pixmap = new Pixmap(720,480,Format.RGBA8888); //new
 		int cells[][] = new int[720][480];
@@ -153,6 +163,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		genCircle(360, 240, 150, sandMat);
 		genCircle(600, 250, 60, sandMat);
 		genCircle(600, 400, 50, concreteMat);
+		genRectangle(500, 300, 200, 50, concreteMat);
 		
 		//staticGen(); //static gen
 		
