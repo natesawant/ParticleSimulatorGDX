@@ -21,12 +21,15 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	private Pixmap simPixmap;
 	private Texture simTexture;
 
+	final int WIDTH = 720;
+	final int HEIGHT = 480;
+
 	private Material[][] oldGrid = new Material[720][480], newGrid = oldGrid;
 
 	public void updateGrid() { //updates the behavior and position of each cell 
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
-		for (int i = 0; i < oldGrid.length; i++) { //Iterates through horizontal axis
-			for (int j = 0;	j < oldGrid[i].length; j++) {
+		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
+			for (int j = 0;	j < HEIGHT; j++) {
 				//System.out.println("Index (" + i + ", " + j + ") is null: " + (oldGrid[0] == null)); //Iterates through vertical axis
 				if (oldGrid[i][j] != null && j + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
 					Material bottomCell = oldGrid[i][j + 1]; //makes a temporary cell that is below the one we are checking the behavior of.
@@ -43,18 +46,16 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		Pixmap simPixmap = new Pixmap(720,480,Format.RGBA8888); //initializes a new pixmap
 		//gridPixmap.setColor(Color.WHITE); //sets color to white
 		//gridPixmap.fill(); //fills in the entire pixmap with white
-		int width = oldGrid.length; //temporary variable so it doesn't have to check the width each time, hopefully making it faster
-		int height = oldGrid[0].length; //temporary variable so it doesn't have to check the height each time, hopefully making it faster
 
-		for (int i = 0; i < width; i++) { //Iterates through horizontal axis
-			for (int j = 0; j < height; j++) { //Iterates through vertical axis
+		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
+			for (int j = 0; j < HEIGHT; j++) { //Iterates through vertical axis
 				if (oldGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
-					simPixmap.setColor(newGrid[i][j].getColor());
-					//simPixmap.setColor(Color.BLACK); //sets color to black, should be newGrid[i][j].getColor() later on
+					//simPixmap.setColor(newGrid[i][j].getColor());
+					simPixmap.setColor(Color.TAN); //sets color to tan, should be newGrid[i][j].getColor() later on
 					simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 				else {
-					simPixmap.setColor(Color.FIREBRICK);
+					simPixmap.setColor(Color.WHITE);
 					simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 			}
@@ -66,12 +67,9 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 	public void genSand() {
 		Material sandMat = new Sand();
-
-		int width = oldGrid.length; //temporary variable so it doesn't have to check the width each time, hopefully making it faster
-		int height = oldGrid[0].length; //temporary variable so it doesn't have to check the height each time, hopefully making it faster
 		
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+		for (int i = 0; i < WIDTH; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
 				double rand = Math.random();
 				if (rand > 0.5) oldGrid[i][j] = sandMat;
 			}
