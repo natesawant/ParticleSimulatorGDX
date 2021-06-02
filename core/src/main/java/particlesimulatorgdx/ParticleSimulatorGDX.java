@@ -27,9 +27,12 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	private Material[][] oldGrid = new Material[720][480], newGrid = oldGrid;
 
 	public void updateGrid() { //updates the behavior and position of each cell 
+		double rand;
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = HEIGHT - 1; j >= 0; j--) {
+				rand = Math.random();
+				
 				//System.out.println("Index (" + i + ", " + j + ") is null: " + (oldGrid[0] == null)); //Iterates through vertical axis
 				if (oldGrid[i][j] != null && j + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
 					Material bottomCell = oldGrid[i][j + 1]; //makes a temporary cell that is below the one we are checking the behavior of.
@@ -37,27 +40,26 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 						oldGrid[i][j + 1] = oldGrid[i][j]; //moves the element down one space in the new grid
 						oldGrid[i][j] = null; //replaces the old space with null
 					}
-				double rand = Math.random();
 				if (rand >= 0.5) {
 					if (oldGrid[i][j] != null && i + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
-					Material rightCell = oldGrid[i + 1][j]; //makes a temporary cell that is below the one we are checking the behavior of.
-					if (oldGrid[i][j].goRight(rightCell)) { //returns true if it can move downwards
-						oldGrid[i + 1][j] = oldGrid[i][j]; //moves the element down one space in the new grid
+					Material rightCell = oldGrid[i + 1][j]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
+					if (oldGrid[i][j].goRight(rightCell)) { //returns true if it can move rightwards
+						oldGrid[i + 1][j] = oldGrid[i][j]; //moves the element right one space in the new grid
 						oldGrid[i][j] = null; //replaces the old space with null
 					}
 				}
 				else {
 					if (oldGrid[i][j] != null && i - 1 > 0) { //checks if it is a valid material and that it won't be out of bounds
-					Material leftCell = oldGrid[i - 1][j]; //makes a temporary cell that is below the one we are checking the behavior of.
-					if (oldGrid[i][j].goRight(leftCell)) { //returns true if it can move downwards
-						oldGrid[i - 1][j] = oldGrid[i][j]; //moves the element down one space in the new grid
+					Material leftCell = oldGrid[i - 1][j]; //makes a temporary cell that is to the left of the one we are checking the behavior of.
+					if (oldGrid[i][j].goRight(leftCell)) { //returns true if it can move leftwards
+						oldGrid[i - 1][j] = oldGrid[i][j]; //moves the element left one space in the new grid
 						oldGrid[i][j] = null; //replaces the old space with null
 					}
 				}
 			}
 		//oldGrid = newGrid;
-		}
-	}
+				}
+			}
 			
 		}
 	}
@@ -71,8 +73,8 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = 0; j < HEIGHT; j++) { //Iterates through vertical axis
 				if (oldGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
-					//simPixmap.setColor(newGrid[i][j].getColor());
-					simPixmap.setColor(Color.TAN); //sets color to tan, should be newGrid[i][j].getColor() later on
+					simPixmap.setColor(newGrid[i][j].getColor());
+					//simPixmap.setColor(Color.TAN); //sets color to tan, should be newGrid[i][j].getColor() later on
 					simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 				else {
@@ -97,8 +99,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		}
 	}
 
-	public void genCircleSand(int x, int y, int r) {
-		Material sandMat = new Sand();
+	public void genCircle(int x, int y, int r, Material mat) {
 
 		double distance;
 
@@ -107,7 +108,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 				if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
 					distance = Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
 					if (distance <= r) {
-						oldGrid[i][j] = sandMat;
+						oldGrid[i][j] = mat;
 					}
 				}
 			}
@@ -145,9 +146,13 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 
-		genRandSand();
-		genCircleSand(360, 240, 150);
-		genCircleSand(600, 240, 50);
+		//genRandSand();
+
+		Material sandMat = new Sand();
+		Material concreteMat = new Concrete();
+		genCircle(360, 240, 150, sandMat);
+		genCircle(600, 250, 60, sandMat);
+		genCircle(600, 400, 50, concreteMat);
 		
 		//staticGen(); //static gen
 		
