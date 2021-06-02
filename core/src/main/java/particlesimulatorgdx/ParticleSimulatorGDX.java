@@ -162,8 +162,8 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		Material concreteMat = new Concrete();
 		genCircle(360, 240, 150, sandMat);
 		genCircle(600, 250, 60, sandMat);
-		genCircle(600, 400, 50, concreteMat);
-		genRectangle(500, 300, 200, 50, concreteMat);
+		//genCircle(600, 400, 50, concreteMat);
+		genRectangle(360, 360, 600, 50, concreteMat);
 		
 		//staticGen(); //static gen
 		
