@@ -127,6 +127,18 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 				}
 			}
 		}
+		if (!filled) {
+			for (int i = x - r; i < x + r; i++) {
+				for (int j = y - r; j < y + r; j++) {
+					if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+						distance = Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
+						if (distance <= r && distance >= r - 1.25) {
+							oldGrid[i][j] = mat;
+						}
+					}
+				}
+			}
+		}
 	}
 	public void genRectangle(int x, int y, int width, int height, Material mat, boolean filled) {
 		if (filled) {
@@ -191,8 +203,10 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 		Material concreteMat = new Concrete();
 		genCircle(360, 240, 150, sandMat, true);
 		genCircle(600, 250, 60, sandMat, true);
-		genCircle(600, 400, 50, concreteMat, true);
-		genRectangle(500, 300, 200, 50, concreteMat, true);
+		genCircle(60, 60, 60, sandMat, true);
+		genCircle(600, 350, 60, sandMat, true);
+		genCircle(600, 400, 50, concreteMat, false);
+		genRectangle(500, 300, 200, 50, concreteMat, false);
 		
 		//staticGen(); //static gen
 		
