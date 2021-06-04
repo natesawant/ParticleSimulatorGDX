@@ -23,19 +23,29 @@ public class Material {
         return matColor;
     }
 
-    public boolean goUp(Material adjCell) {
-        return false;
+    public Material[] moveCell(Material[] adjCells) {
+        Material[] newAdjCells = adjCells;
+        return newAdjCells;
+    }
+    /*
+    public Material[] goUp(Material[] adjCells) {
+        Material[] newAdjCells = adjCells;
+        return newAdjCells;
     }
 
-    public boolean goDown(Material adjCell) {
-        return false;
+    public Material[] goDown(Material[] adjCells) {
+        Material[] newAdjCells = adjCells;
+        return newAdjCells;
     }
 
-    public boolean goRight(Material adjCell) {
-        return false;
+    public Material[] goRight(Material[] adjCells) {
+        Material[] newAdjCells = adjCells;
+        return newAdjCells;
     }
 
-    public boolean goLeft(Material adjCell) {
-        return false;
+    public Material[] goLeft(Material[] adjCells) {
+        Material[] newAdjCells = adjCells;
+        return newAdjCells;
     }
+    */
 }
