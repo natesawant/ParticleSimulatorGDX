@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 public class Sand extends Solid {
     private static String matType = "Solid";
     private static double matDensity = 1;
-    private static Color matColor = new Color(220, 180, 25, 1);
+    private static Color matColor = Color.TAN;
 
     @Override
     public String getType() {
@@ -43,9 +43,8 @@ public class Sand extends Solid {
             newAdjCells[0] = adjCells[8];
         }
         ///*
-        else {
-            double rand = Math.random(); 
-            if (rand > .5) {
+        else { 
+            if (Math.random() > .5) {
                 if (adjCells[1] == null) {
                     newAdjCells[8] = adjCells[1];
                     newAdjCells[1] = adjCells[8];

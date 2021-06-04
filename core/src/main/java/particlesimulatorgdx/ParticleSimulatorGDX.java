@@ -36,18 +36,19 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 				}
 			}
 		}
+		oldGrid = newGrid;
 	}
 
 	private void replaceCells(Material[] newSection, int i, int j) {
-		if (j + 1 < HEIGHT) 					oldGrid[i    ][j + 1] = newSection[0]; //bottom = 0
-		if (i + 1 < WIDTH && j + 1 < HEIGHT) 	oldGrid[i + 1][j + 1] = newSection[1]; //bottom right = 1
-		if (i + 1 < WIDTH) 						oldGrid[i + 1][j    ] = newSection[2]; //right = 2
-		if (i + 1 < WIDTH && j - 1 >= 0) 		oldGrid[i + 1][j - 1] = newSection[3]; //top right = 3
-		if (j - 1 >= 0) 						oldGrid[i    ][j - 1] = newSection[4]; //top = 4
-		if (i - 1 >= 0 && j - 1 >= 0) 			oldGrid[i - 1][j - 1] = newSection[5]; //top left = 5
-		if (i - 1 >= 0)							oldGrid[i - 1][j    ] = newSection[6]; //left = 6
-		if (i - 1 >= 0 && j + 1 < HEIGHT)		oldGrid[i - 1][j + 1] = newSection[7]; //bottom left = 7
-		if (true)								oldGrid[i    ][j    ] = newSection[8]; //center = 8
+		if (j + 1 < HEIGHT) 					newGrid[i    ][j + 1] = newSection[0]; //bottom = 0
+		if (i + 1 < WIDTH && j + 1 < HEIGHT) 	newGrid[i + 1][j + 1] = newSection[1]; //bottom right = 1
+		if (i + 1 < WIDTH) 						newGrid[i + 1][j    ] = newSection[2]; //right = 2
+		if (i + 1 < WIDTH && j - 1 >= 0) 		newGrid[i + 1][j - 1] = newSection[3]; //top right = 3
+		if (j - 1 >= 0) 						newGrid[i    ][j - 1] = newSection[4]; //top = 4
+		if (i - 1 >= 0 && j - 1 >= 0) 			newGrid[i - 1][j - 1] = newSection[5]; //top left = 5
+		if (i - 1 >= 0)							newGrid[i - 1][j    ] = newSection[6]; //left = 6
+		if (i - 1 >= 0 && j + 1 < HEIGHT)		newGrid[i - 1][j + 1] = newSection[7]; //bottom left = 7
+		if (true)								newGrid[i    ][j    ] = newSection[8]; //center = 8
 	}
 	private Material[] getAdjCells(int i, int j) {
 		Material[] adjCells = new Material[9];
@@ -147,14 +148,14 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = 0; j < HEIGHT; j++) { //Iterates through vertical axis
-				if (oldGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
+				if (newGrid[i][j] != null) { //Checks if it is a valid material to prevent errors
 					simPixmap.setColor(newGrid[i][j].getColor());
 					//simPixmap.setColor(Color.TAN); //sets color to tan, should be newGrid[i][j].getColor() later on
 					simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 				else {
-					//simPixmap.setColor(Color.WHITE);
-					//simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
+					simPixmap.setColor(Color.WHITE);
+					simPixmap.drawPixel(i, j); //draws a pixel of said color at (i, j)
 				}
 			}
 		}
@@ -168,8 +169,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
-				double rand = Math.random();
-				if (rand > 0.5) oldGrid[i][j] = sandMat;
+				if (Math.random() > 0.5) oldGrid[i][j] = sandMat;
 			}
 		}
 	}
