@@ -31,7 +31,6 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = HEIGHT - 1; j >= 0; j--) {
-				rand = Math.random();
 
 				//System.out.println("Index (" + i + ", " + j + ") is null: " + (oldGrid[0] == null)); //Iterates through vertical axis
 				if (oldGrid[i][j] != null && j + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
@@ -40,25 +39,43 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 						oldGrid[i][j + 1] = oldGrid[i][j]; //moves the element down one space in the new grid
 						oldGrid[i][j] = null; //replaces the old space with null
 					}
-				if (rand > 0.5) {
-					if (oldGrid[i][j] != null && i + 1 < oldGrid[i].length) { //checks if it is a valid material and that it won't be out of bounds
-					Material rightCell = oldGrid[i + 1][j]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
-					if (oldGrid[i][j].goRight(rightCell)) { //returns true if it can move rightwards
-						oldGrid[i + 1][j] = oldGrid[i][j]; //moves the element right one space in the new grid
-						oldGrid[i][j] = null; //replaces the old space with null
-					}
-				}
 				else {
-					if (oldGrid[i][j] != null && i - 1 > 0) { //checks if it is a valid material and that it won't be out of bounds
-					Material leftCell = oldGrid[i - 1][j]; //makes a temporary cell that is to the left of the one we are checking the behavior of.
-					if (oldGrid[i][j].goRight(leftCell)) { //returns true if it can move leftwards
-						oldGrid[i - 1][j] = oldGrid[i][j]; //moves the element left one space in the new grid
-						oldGrid[i][j] = null; //replaces the old space with null
+					Material bottomRightCell;
+					Material bottomLeftCell;
+					if (Math.random() > 0.5) {
+						if (oldGrid[i][j] != null && i + 1 < oldGrid.length && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
+							bottomRightCell = oldGrid[i + 1][j + 1]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
+							if (oldGrid[i][j].goBottomRight(bottomRightCell)) { //returns true if it can move rightwards
+								oldGrid[i + 1][j + 1] = oldGrid[i][j]; //moves the element right one space and one down in the new grid
+								oldGrid[i][j] = null; //replaces the old space with null
+								}
+							}
+						if (oldGrid[i][j] != null && i - 1 >= 0 && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
+							bottomLeftCell = oldGrid[i - 1][j + 1]; //makes a temporary cell that is to the left of the one we are checking the behavior of.
+							if (oldGrid[i][j].goBottomLeft(bottomLeftCell)) { //returns true if it can move leftwards
+								oldGrid[i - 1][j + 1] = oldGrid[i][j]; //moves the element left one space and down one in the new grid
+								oldGrid[i][j] = null; //replaces the old space with null
+								}
+							}
+						}
+
+					else {
+						if (oldGrid[i][j] != null && i - 1 >= 0 && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
+							bottomLeftCell = oldGrid[i - 1][j + 1]; //makes a temporary cell that is to the left of the one we are checking the behavior of.
+							if (oldGrid[i][j].goBottomLeft(bottomLeftCell)) { //returns true if it can move leftwards
+								oldGrid[i - 1][j + 1] = oldGrid[i][j]; //moves the element left one space and down one in the new grid
+								oldGrid[i][j] = null; //replaces the old space with null
+								}
+							}
+						if (oldGrid[i][j] != null && i + 1 < oldGrid.length && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
+							bottomRightCell = oldGrid[i + 1][j + 1]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
+							if (oldGrid[i][j].goBottomRight(bottomRightCell)) { //returns true if it can move rightwards
+								oldGrid[i + 1][j + 1] = oldGrid[i][j]; //moves the element right one space and one down in the new grid
+								oldGrid[i][j] = null; //replaces the old space with null
+								}
+							}
+						}
 					}
-				}
-			}
-		//oldGrid = newGrid;
-				}
 			}
 			
 		}

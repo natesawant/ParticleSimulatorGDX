@@ -31,11 +31,11 @@ public class Material {
         return false;
     }
 
-    public boolean goRight(Material adjCell) {
+    public boolean goBottomRight(Material adjCell) {
         return false;
     }
 
-    public boolean goLeft(Material adjCell) {
+    public boolean goBottomLeft(Material adjCell) {
         return false;
     }
 }
