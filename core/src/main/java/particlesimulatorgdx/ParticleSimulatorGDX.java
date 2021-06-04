@@ -1,7 +1,5 @@
 package particlesimulatorgdx;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,10 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class ParticleSimulatorGDX extends ApplicationAdapter {
 	private SpriteBatch batch;
 
-	private Pixmap staticPixmap; //static generator
 	private Texture staticTexture; 
 
-	private Pixmap simPixmap;
 	private Texture simTexture;
 
 	final int WIDTH = 720;
@@ -27,7 +23,6 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	private Material[][] oldGrid = new Material[720][480], newGrid = oldGrid;
 
 	public void updateGrid() { //updates the behavior and position of each cell 
-		double rand;
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
 		for (int i = 0; i < WIDTH; i++) { //Iterates through horizontal axis
 			for (int j = HEIGHT - 1; j >= 0; j--) {
@@ -116,27 +111,44 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		}
 	}
 
-	public void genCircle(int x, int y, int r, Material mat) {
+public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 
 		double distance;
 
-		for (int i = x - r; i < x + r; i++) {
-			for (int j = y - r; j < y + r; j++) {
-				if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
-					distance = Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
-					if (distance <= r) {
-						oldGrid[i][j] = mat;
+		if (filled) {
+			for (int i = x - r; i < x + r; i++) {
+				for (int j = y - r; j < y + r; j++) {
+					if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+						distance = Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
+						if (distance <= r) {
+							oldGrid[i][j] = mat;
+						}
 					}
 				}
 			}
 		}
 	}
-
-	public void genRectangle(int x, int y, int width, int height, Material mat) {
-		for (int i = x - width/2; i < x + width/2; i++) {
+	public void genRectangle(int x, int y, int width, int height, Material mat, boolean filled) {
+		if (filled) {
+			for (int i = x - width/2; i < x + width/2; i++) {
+				for (int j = y - height/2; j < y + height/2; j++) {
+					if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
+						oldGrid[i][j] = mat;
+					}
+				}
+			}
+		}
+		if (!filled) {
+			for (int i = x - width/2; i < x + width/2; i++) {
+				if (i >= 0 && i < WIDTH && y - height/2 >= 0 && y + height/2 < HEIGHT) {
+					oldGrid[i][y - height/2] = mat;
+					oldGrid[i][y + height/2] = mat;
+				}
+			}
 			for (int j = y - height/2; j < y + height/2; j++) {
-				if (i >= 0 && j >= 0 && i < WIDTH && j < HEIGHT) {
-					oldGrid[i][j] = mat;
+				if (j >= 0 && j < HEIGHT && x - width/2 >= 0 && x + width/2 < WIDTH) {
+					oldGrid[x - width/2][j] = mat;
+					oldGrid[x + width/2][j] = mat;
 				}
 			}
 		}
@@ -177,10 +189,10 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 		Material sandMat = new Sand();
 		Material concreteMat = new Concrete();
-		genCircle(360, 240, 150, sandMat);
-		genCircle(600, 250, 60, sandMat);
-		genCircle(600, 400, 50, concreteMat);
-		genRectangle(500, 300, 200, 50, concreteMat);
+		genCircle(360, 240, 150, sandMat, true);
+		genCircle(600, 250, 60, sandMat, true);
+		genCircle(600, 400, 50, concreteMat, true);
+		genRectangle(500, 300, 200, 50, concreteMat, true);
 		
 		//staticGen(); //static gen
 		
@@ -207,7 +219,6 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		batch.dispose();
 		simTexture.dispose();
 		staticTexture.dispose();
-		//grid.dispose(); //new
 	}
 
 }
