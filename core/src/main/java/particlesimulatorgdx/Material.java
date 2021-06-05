@@ -38,4 +38,12 @@ public class Material {
     public boolean goBottomLeft(Material adjCell) {
         return false;
     }
+
+    public boolean goRight(Material adjCell) {
+        return false;
+    }
+
+    public boolean goLeft(Material adjCell) {
+        return false;
+    }
 }

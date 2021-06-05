@@ -37,22 +37,25 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 				else {
 					Material bottomRightCell;
 					Material bottomLeftCell;
+					Material rightCell;
+					Material leftCell;
 					if (Math.random() > 0.5) {
 						if (oldGrid[i][j] != null && i + 1 < oldGrid.length && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
 							bottomRightCell = oldGrid[i + 1][j + 1]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
 							if (oldGrid[i][j].goBottomRight(bottomRightCell)) { //returns true if it can move rightwards
 								oldGrid[i + 1][j + 1] = oldGrid[i][j]; //moves the element right one space and one down in the new grid
 								oldGrid[i][j] = null; //replaces the old space with null
-								}
 							}
+						}
 						if (oldGrid[i][j] != null && i - 1 >= 0 && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
 							bottomLeftCell = oldGrid[i - 1][j + 1]; //makes a temporary cell that is to the left of the one we are checking the behavior of.
 							if (oldGrid[i][j].goBottomLeft(bottomLeftCell)) { //returns true if it can move leftwards
 								oldGrid[i - 1][j + 1] = oldGrid[i][j]; //moves the element left one space and down one in the new grid
 								oldGrid[i][j] = null; //replaces the old space with null
-								}
 							}
 						}
+					}
+						
 
 					else {
 						if (oldGrid[i][j] != null && i - 1 >= 0 && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
@@ -60,22 +63,23 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 							if (oldGrid[i][j].goBottomLeft(bottomLeftCell)) { //returns true if it can move leftwards
 								oldGrid[i - 1][j + 1] = oldGrid[i][j]; //moves the element left one space and down one in the new grid
 								oldGrid[i][j] = null; //replaces the old space with null
-								}
 							}
+						}
+
 						if (oldGrid[i][j] != null && i + 1 < oldGrid.length && j + 1 < HEIGHT) { //checks if it is a valid material and that it won't be out of bounds
 							bottomRightCell = oldGrid[i + 1][j + 1]; //makes a temporary cell that is to the right of the one we are checking the behavior of.
 							if (oldGrid[i][j].goBottomRight(bottomRightCell)) { //returns true if it can move rightwards
 								oldGrid[i + 1][j + 1] = oldGrid[i][j]; //moves the element right one space and one down in the new grid
 								oldGrid[i][j] = null; //replaces the old space with null
-								}
 							}
-						}
+						}	
 					}
+				}
 			}
-			
 		}
 	}
 }
+
 
 	public void drawGrid() { //draws each pixel using the data from the 2D cell array
 		Pixmap simPixmap = new Pixmap(720,480,Format.RGBA8888); //initializes a new pixmap
@@ -201,9 +205,10 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 
 		Material sandMat = new Sand();
 		Material concreteMat = new Concrete();
+		Material waterMat = new Water();
 		genCircle(360, 240, 150, sandMat, true);
 		genCircle(600, 250, 60, sandMat, true);
-		genCircle(60, 60, 60, sandMat, true);
+		genCircle(60, 60, 60, waterMat, true);
 		genCircle(600, 350, 60, sandMat, true);
 		genCircle(600, 400, 50, concreteMat, false);
 		genRectangle(500, 300, 200, 50, concreteMat, false);
