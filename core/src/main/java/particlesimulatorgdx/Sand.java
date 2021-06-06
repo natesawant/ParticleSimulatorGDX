@@ -34,13 +34,14 @@ public class Sand extends Solid {
     }
 
     @Override
-    public boolean goRight(Material adjCell) {
+    public boolean goBottomRight(Material adjCell) {
         if (adjCell == null) return true;
         return false;
     }
 
     @Override
-    public boolean goLeft(Material adjCell) {
+    public boolean goBottomLeft(Material adjCell) {
+        if (adjCell == null) return true;
         return false;
     }
 }
