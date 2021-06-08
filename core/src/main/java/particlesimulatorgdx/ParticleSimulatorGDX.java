@@ -82,7 +82,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 
 
 	public void drawGrid() { //draws each pixel using the data from the 2D cell array
-		Pixmap simPixmap = new Pixmap(720,480,Format.RGBA8888); //initializes a new pixmap
+		Pixmap simPixmap = new Pixmap(WIDTH,HEIGHT,Format.RGBA8888); //initializes a new pixmap
 		//gridPixmap.setColor(Color.WHITE); //sets color to white
 		//gridPixmap.fill(); //fills in the entire pixmap with white
 
