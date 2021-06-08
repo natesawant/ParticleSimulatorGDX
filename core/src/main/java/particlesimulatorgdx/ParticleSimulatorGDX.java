@@ -20,7 +20,7 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 	final int WIDTH = 720;
 	final int HEIGHT = 480;
 
-	private Material[][] oldGrid = new Material[720][480], newGrid = oldGrid;
+	private Material[][] oldGrid = new Material[WIDTH][HEIGHT], newGrid = oldGrid;
 
 	public void updateGrid() { //updates the behavior and position of each cell 
 		newGrid = oldGrid; //Makes the new grid the exact same as the old grid, now have 2 copies.
@@ -104,13 +104,10 @@ public class ParticleSimulatorGDX extends ApplicationAdapter {
 		batch.draw(simTexture, 0, 0);
 	}
 
-	public void genRandSand() {
-		Material sandMat = new Sand();
-		
+	public void genRand(Material mat, double prob) {	
 		for (int i = 0; i < WIDTH; i++) {
 			for (int j = 0; j < HEIGHT; j++) {
-				double rand = Math.random();
-				if (rand > 0.5) oldGrid[i][j] = sandMat;
+				if (Math.random() < prob) oldGrid[i][j] = mat;
 			}
 		}
 	}
@@ -171,8 +168,8 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 	}
 
 	public void staticGen() {
-		Pixmap _pixmap = new Pixmap(720,480,Format.RGBA8888); //new
-		int cells[][] = new int[720][480];
+		Pixmap _pixmap = new Pixmap(WIDTH,HEIGHT,Format.RGBA8888); //new
+		int cells[][] = new int[WIDTH][HEIGHT];
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[0].length; j++) {
 				double rand = Math.random();
@@ -201,11 +198,10 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 	public void create() {
 		batch = new SpriteBatch();
 
-		//genRandSand();
-
 		Material sandMat = new Sand();
 		Material concreteMat = new Concrete();
 		Material waterMat = new Water();
+		genRand(sandMat, 0.3);
 		genCircle(360, 240, 150, sandMat, true);
 		genCircle(600, 250, 60, sandMat, true);
 		genCircle(60, 60, 60, waterMat, true);
@@ -214,8 +210,6 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 		genRectangle(500, 300, 200, 50, concreteMat, false);
 		
 		//staticGen(); //static gen
-		
-		
 	}
 
 	@Override
