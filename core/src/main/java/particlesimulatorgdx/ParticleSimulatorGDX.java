@@ -201,13 +201,14 @@ public void genCircle(int x, int y, int r, Material mat, boolean filled) {
 		Material sandMat = new Sand();
 		Material concreteMat = new Concrete();
 		Material waterMat = new Water();
-		genRand(sandMat, 0.3);
+		
 		genCircle(360, 240, 150, sandMat, true);
 		genCircle(600, 250, 60, sandMat, true);
 		genCircle(60, 60, 60, waterMat, true);
 		genCircle(600, 350, 60, sandMat, true);
 		genCircle(600, 400, 50, concreteMat, false);
 		genRectangle(500, 300, 200, 50, concreteMat, false);
+		genRand(waterMat, 0.40);
 		
 		//staticGen(); //static gen
 	}
