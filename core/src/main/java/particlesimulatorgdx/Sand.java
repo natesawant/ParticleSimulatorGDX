@@ -3,7 +3,7 @@ package particlesimulatorgdx;
 import com.badlogic.gdx.graphics.Color;
 
 public class Sand extends Solid {
-    private static String matType = "Solid";
+    private static String matType = "Sand";
     private static double matDensity = 1;
     private static Color matColor = Color.TAN;
 

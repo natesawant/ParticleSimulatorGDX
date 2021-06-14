@@ -3,7 +3,7 @@ package particlesimulatorgdx;
 import com.badlogic.gdx.graphics.Color;
 
 public class Water extends Liquid {
-    private static String matType = "Liquid";
+    private static String matType = "Water";
     private static double matDensity = 1;
     private static Color matColor = Color.BLUE;
 
